@@ -1,0 +1,14 @@
+ U3-P4 Write query to find out hit ratio for the data buffer cache and write 
+your conclusion.
+
+
+ select
+     ROUND(( 1 - ( c.value / (a.value+b.value)))*100,2) AS Bfr_hit_Rto
+    from
+    v$sysstat a,
+    v$sysstat b,
+    v$sysstat c
+where
+ a.name='db block gets'
+AND b.name='consistent gets'
+AND c.name='physical reads';

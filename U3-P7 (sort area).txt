@@ -1,0 +1,12 @@
+U3-P7 Write a query to find out sort area contention in data base and give 
+right solution as a dba
+
+
+
+ SELECT
+       name,
+        value
+  FROM
+        v$sysstat
+    WHERE
+        name LIKE 'workarea exec%';

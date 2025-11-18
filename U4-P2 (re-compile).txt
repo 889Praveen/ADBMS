@@ -1,0 +1,72 @@
+ U4-P2 With the use of DBMS_DDL package recompile your all modified 
+package or procedure in you schema
+
+
+DECLARE
+  	v_user VARCHAR2(30);
+BEGIN
+    SELECT USER INTO v_user FROM dual;
+   
+   FOR rec IN (
+      SELECT OBJECT_NAME , OBJECT_TYPE
+      FROM user_objects
+      WHERE OBJECT_TYPE IN('PACKAGE','PACKAGE BODY','PROCEDURE')
+      AND TRUNC(LAST_DDL_TIME) = TRUNC(SYSDATE)
+      
+    )LOOP
+      DBMS_OUTPUT.PUT_LINE('Recompilling : ' || rec.OBJECT_TYPE || ' ' || rec.OBJECT_NAME);
+      DBMS_DDL.alter_compile(rec.object_type,v_user,rec.object_name);
+   END LOOP;
+   END;
+   /
+
+
+
+
+
+
+
+
+
+----package
+
+CREATE OR REPLACE PACKAGE my_package AS
+    -- Procedure declaration
+    PROCEDURE say_hello;
+
+    -- Function declaration
+    FUNCTION add_numbers(a NUMBER, b NUMBER) RETURN NUMBER;
+END my_package;
+/
+
+
+-----Package Body
+
+CREATE OR REPLACE PACKAGE BODY my_package AS
+
+    -- Procedure implementation
+    PROCEDURE say_hello IS
+    BEGIN
+        DBMS_OUTPUT.PUT_LINE('Hello from my_package!');
+    END say_hello;
+
+    -- Function implementation
+    FUNCTION add_numbers(a NUMBER, b NUMBER) RETURN NUMBER IS
+    BEGIN
+        RETURN a + b;
+    END add_numbers;
+
+END my_package;
+/
+
+
+
+-----Procedure
+
+
+CREATE OR REPLACE PROCEDURE my_procedure IS
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hello! This is my first procedure.');
+END;
+/
+

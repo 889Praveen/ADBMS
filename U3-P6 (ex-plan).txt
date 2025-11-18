@@ -1,0 +1,7 @@
+
+ U3-P6 Write a query to find out what will be the execution plan of the 
+query. Derive all the steps
+
+ - explain plan for select *from buyer;
+
+ - select *from table(DBMS_XPLAN.DISPLAY()); 
